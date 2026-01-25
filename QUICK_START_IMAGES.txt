@@ -1,0 +1,16 @@
+QUICK START: Adding Your Images & Videos
+
+1. HERO SECTION:
+   - Add hero-image.jpg to: public/images/
+   - (Optional) Add hero-video.mp4 to: public/images/
+
+2. ROOM IMAGES:
+   - Add photos to: public/images/room-[room-type]/
+   - Update content/data.json with all image paths
+
+3. GALLERY:
+   - Add photos to: public/images/gallery/
+
+After adding files, the website will automatically use them!
+
+See IMAGE_SETUP.md for detailed instructions.

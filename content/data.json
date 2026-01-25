@@ -1,0 +1,157 @@
+{
+  "rooms": [
+    {
+      "id": "standard-single",
+      "name": {
+        "fr": "Chambre Standard Simple",
+        "en": "Standard Single Room"
+      },
+      "description": {
+        "fr": "Chambre confortable et fonctionnelle pour un séjour agréable. Idéale pour les voyageurs en solo.",
+        "en": "Comfortable and functional room for a pleasant stay. Ideal for solo travelers."
+      },
+      "capacity": 1,
+      "beds": {
+        "fr": "1 lit simple",
+        "en": "1 single bed"
+      },
+      "size": {
+        "fr": "15 m²",
+        "en": "15 m²"
+      },
+      "amenities": [
+        "Lit simple",
+        "Climatisation",
+        "WiFi gratuit",
+        "Salle de bain privée",
+        "Télévision"
+      ],
+      "priceFrom": "15000",
+      "images": ["/images/room-standard-single/room-standard-single-1.jpg", "/images/room-standard-single/room-standard-single-2.jpg"]
+    },
+    {
+      "id": "standard-double",
+      "name": {
+        "fr": "Chambre Standard Double",
+        "en": "Standard Double Room"
+      },
+      "description": {
+        "fr": "Chambre spacieuse avec lit double, parfaite pour les couples. Confort et simplicité.",
+        "en": "Spacious room with double bed, perfect for couples. Comfort and simplicity."
+      },
+      "capacity": 2,
+      "beds": {
+        "fr": "1 lit double",
+        "en": "1 double bed"
+      },
+      "size": {
+        "fr": "20 m²",
+        "en": "20 m²"
+      },
+      "amenities": [
+        "Lit double",
+        "Climatisation",
+        "WiFi gratuit",
+        "Salle de bain privée",
+        "Télévision"
+      ],
+      "priceFrom": "20000",
+      "images": ["/images/room-standard-double/room-standard-double-1.jpg", "/images/room-standard-double/room-standard-double-2.jpg"]
+    },
+    {
+      "id": "superior-double",
+      "name": {
+        "fr": "Chambre Supérieure Double",
+        "en": "Superior Double Room"
+      },
+      "description": {
+        "fr": "Chambre supérieure avec vue sur le jardin et balcon privé. Un espace raffiné pour un séjour mémorable.",
+        "en": "Superior room with garden view and private balcony. A refined space for a memorable stay."
+      },
+      "capacity": 2,
+      "beds": {
+        "fr": "1 lit double",
+        "en": "1 double bed"
+      },
+      "size": {
+        "fr": "25 m²",
+        "en": "25 m²"
+      },
+      "amenities": [
+        "Lit double",
+        "Climatisation",
+        "WiFi gratuit",
+        "Salle de bain privée avec douche",
+        "Télévision",
+        "Vue sur le jardin",
+        "Balcon"
+      ],
+      "priceFrom": "25000",
+      "images": ["/images/room-superior-double/room-superior-double-1.jpg", "/images/room-superior-double/room-superior-double-2.jpg"]
+    },
+    {
+      "id": "family-triple",
+      "name": {
+        "fr": "Chambre Familiale Triple",
+        "en": "Family Triple Room"
+      },
+      "description": {
+        "fr": "Chambre familiale spacieuse avec lit double et lit simple. Parfaite pour les familles avec enfants.",
+        "en": "Spacious family room with double bed and single bed. Perfect for families with children."
+      },
+      "capacity": 3,
+      "beds": {
+        "fr": "1 lit double + 1 lit simple",
+        "en": "1 double bed + 1 single bed"
+      },
+      "size": {
+        "fr": "30 m²",
+        "en": "30 m²"
+      },
+      "amenities": [
+        "Lit double + lit simple",
+        "Climatisation",
+        "WiFi gratuit",
+        "Salle de bain privée",
+        "Télévision",
+        "Espace enfants"
+      ],
+      "priceFrom": "30000",
+      "images": ["/images/room-family-triple/room-family-triple-1.jpg", "/images/room-family-triple/room-family-triple-2.jpg"]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-1",
+      "name": "Marie D.",
+      "rating": 5,
+      "text": "Excellent séjour! Chambres très propres, personnel accueillant. L'emplacement près de l'hôpital était parfait pour nous.",
+      "date": "2024-01-15"
+    },
+    {
+      "id": "review-2",
+      "name": "Jean-Pierre M.",
+      "rating": 5,
+      "text": "Résidence calme avec un beau jardin. Excellent rapport qualité-prix. Je recommande vivement.",
+      "date": "2024-02-10"
+    },
+    {
+      "id": "review-3",
+      "name": "Sarah K.",
+      "rating": 5,
+      "text": "Staff speaks English which was very helpful. Clean rooms and good location. Will come back!",
+      "date": "2024-02-25"
+    }
+  ],
+  "business": {
+    "name": "Résidence Amizade",
+    "phone": "+221779159990",
+    "phoneSecondary": "+221778617137",
+    "whatsapp": "+221779159990",
+    "address": "Ziguinchor, Senegal",
+    "addressDetailed": "À proximité de l'hôpital régional, Ziguinchor, Sénégal",
+    "email": "contact@residenceamizade.sn",
+    "latitude": "12.5833",
+    "longitude": "-16.2719"
+  }
+}
