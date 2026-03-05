@@ -3,19 +3,27 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
+    "dev:alt": "next dev -p 3001",
+    "backend:install": "cd backend && python3 -m pip install -r requirements.txt",
+    "backend": "cd backend && python3 -m uvicorn main:app --reload --port 8001",
+    "dev:all": "concurrently \"npm run backend\" \"npm run dev\"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "start:alt": "next start -p 3001",
+    "lint": "next lint",
+    "deploy": "vercel --prod",
+    "clean": "rm -rf .next node_modules && npm install"
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "next": "14.2.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
+    "concurrently": "^9.1.0",
     "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

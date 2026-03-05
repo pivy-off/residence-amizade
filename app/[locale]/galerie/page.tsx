@@ -2,14 +2,15 @@ import Image from 'next/image';
 import { Locale } from '@/types';
 import { getTranslations, getFullLocalizedPath } from '@/lib/i18n';
 import { generatePageMetadata as genMeta } from '@/lib/metadata';
+import { getLocaleFromParams } from '@/lib/params';
 import type { Metadata } from 'next';
 
 interface GalleryPageProps {
-  params: { locale: Locale };
+  params: { locale?: Locale } | Promise<{ locale?: Locale }> | undefined;
 }
 
 export async function generateMetadata({ params }: GalleryPageProps): Promise<Metadata> {
-  const { locale } = params;
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   
   return genMeta({
@@ -20,21 +21,20 @@ export async function generateMetadata({ params }: GalleryPageProps): Promise<Me
   });
 }
 
-export default function GalleryPage({ params }: GalleryPageProps) {
-  const { locale } = params;
+export default async function GalleryPage({ params }: GalleryPageProps) {
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
 
-  // Placeholder images - to be replaced with actual photos
   const galleryImages = [
-    { src: '/images/gallery/exterior-1.jpg', alt: 'Vue extérieure de la résidence' },
-    { src: '/images/gallery/garden-1.jpg', alt: 'Jardin de la résidence' },
-    { src: '/images/gallery/room-1.jpg', alt: 'Chambre standard' },
-    { src: '/images/gallery/room-2.jpg', alt: 'Chambre supérieure' },
+    { src: '/images/gallery/exterior-1.jpg', alt: 'Vue extérieure' },
+    { src: '/images/gallery/garden-1.jpg', alt: 'Jardin' },
+    { src: '/images/gallery/room-1.jpg', alt: 'Chambre' },
+    { src: '/images/gallery/room-2.jpg', alt: 'Chambre' },
     { src: '/images/gallery/common-area-1.jpg', alt: 'Espace commun' },
-    { src: '/images/gallery/exterior-2.jpg', alt: 'Façade de la résidence' },
-    { src: '/images/gallery/garden-2.jpg', alt: 'Jardin paisible' },
-    { src: '/images/gallery/room-3.jpg', alt: 'Chambre familiale' },
-    { src: '/images/gallery/common-area-2.jpg', alt: 'Hall d\'entrée' },
+    { src: '/images/gallery/exterior-2.jpg', alt: 'Façade' },
+    { src: '/images/gallery/garden-2.jpg', alt: 'Jardin' },
+    { src: '/images/gallery/room-3.jpg', alt: 'Chambre' },
+    { src: '/images/gallery/common-area-2.jpg', alt: 'Hall' },
   ];
 
   return (
@@ -51,6 +51,7 @@ export default function GalleryPage({ params }: GalleryPageProps) {
               src={image.src}
               alt={image.alt}
               fill
+              unoptimized
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />

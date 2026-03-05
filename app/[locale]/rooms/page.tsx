@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation';
-import { Locale } from '@/types';
 import { getFullLocalizedPath } from '@/lib/i18n';
+import { getLocaleFromParams } from '@/lib/params';
 
 interface RoomsEnPageProps {
-  params: { locale: Locale };
+  params: { locale?: string } | Promise<{ locale?: string }> | undefined;
 }
 
-export default function RoomsEnPage({ params }: RoomsEnPageProps) {
+export default async function RoomsEnPage({ params }: RoomsEnPageProps) {
+  await getLocaleFromParams(params);
   redirect(getFullLocalizedPath('/chambres', 'en'));
 }

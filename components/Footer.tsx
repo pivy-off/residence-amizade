@@ -98,7 +98,7 @@ export default function Footer({ locale }: FooterProps) {
         <div className="border-t border-gray-800 pt-8 mb-8">
           <div className="flex items-center justify-center gap-6">
             <a
-              href="#"
+              href={businessData.business.facebook || '#'}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"
@@ -109,7 +109,7 @@ export default function Footer({ locale }: FooterProps) {
               </svg>
             </a>
             <a
-              href="#"
+              href={businessData.business.instagram || '#'}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"

@@ -1,4 +1,5 @@
-import { Locale, defaultLocale, locales } from './i18n';
+import { Locale } from '@/types';
+import { defaultLocale, locales } from './i18n';
 
 export function getLocaleFromPath(pathname: string): Locale {
   const segments = pathname.split('/').filter(Boolean);

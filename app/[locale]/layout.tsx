@@ -3,22 +3,22 @@ import MobileBottomBar from '@/components/MobileBottomBar';
 import Footer from '@/components/Footer';
 import StickyBookButton from '@/components/StickyBookButton';
 import { Locale } from '@/types';
-import { locales, defaultLocale } from '@/lib/i18n';
+import { locales } from '@/lib/i18n';
+import { getLocaleFromParams } from '@/lib/params';
 import { notFound } from 'next/navigation';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: Locale };
+  params: { locale?: Locale } | Promise<{ locale?: Locale }> | undefined;
 }) {
-  const { locale } = params;
-
+  const locale = await getLocaleFromParams(params);
   if (!locales.includes(locale)) {
     notFound();
   }

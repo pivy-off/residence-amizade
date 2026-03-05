@@ -2,16 +2,17 @@ import Link from 'next/link';
 import { Locale } from '@/types';
 import { getTranslations, getFullLocalizedPath } from '@/lib/i18n';
 import { generatePageMetadata as genMeta } from '@/lib/metadata';
+import { getLocaleFromParams } from '@/lib/params';
 import businessData from '@/content/data.json';
 import { getWhatsAppLink, getTelLink } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 interface LocationPageProps {
-  params: { locale: Locale };
+  params: { locale?: Locale } | Promise<{ locale?: Locale }> | undefined;
 }
 
 export async function generateMetadata({ params }: LocationPageProps): Promise<Metadata> {
-  const { locale } = params;
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   
   return genMeta({
@@ -22,8 +23,8 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   });
 }
 
-export default function LocationPage({ params }: LocationPageProps) {
-  const { locale } = params;
+export default async function LocationPage({ params }: LocationPageProps) {
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   const whatsAppLink = getWhatsAppLink(businessData.business.whatsapp);
   const telLink = getTelLink(businessData.business.phone);
@@ -65,13 +66,24 @@ export default function LocationPage({ params }: LocationPageProps) {
         </div>
 
         <div className="relative h-[500px] rounded-apple-lg overflow-hidden bg-gray-100 shadow-apple-lg">
-          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-            <div className="text-center p-8">
-              <p className="mb-4 text-base">Map placeholder</p>
-              <p className="text-sm">TODO: Add Google Maps embed iframe</p>
-              <p className="text-xs mt-2">Use the embed URL from Google Maps</p>
-            </div>
-          </div>
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-16.282%2C12.578%2C-16.262%2C12.588&layer=mapnik&marker=12.5833%2C-16.2719"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            title="Résidence AMIZADE - Ziguinchor"
+            className="absolute inset-0 w-full h-full"
+          />
+          <a
+            href={businessData.business.mapsUrl || 'https://maps.app.goo.gl/AMYJ1um9xQd4SpVN7'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-4 right-4 z-10 btn-primary text-sm py-2 px-4 shadow-lg"
+          >
+            {locale === 'fr' ? 'Ouvrir dans Google Maps' : 'Open in Google Maps'}
+          </a>
         </div>
       </div>
     </div>

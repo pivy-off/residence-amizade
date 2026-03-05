@@ -32,9 +32,14 @@ export default function SocialProof({ locale }: SocialProofProps) {
       <div className="text-lg">
         {reviewCount} {locale === 'fr' ? 'avis' : 'reviews'}
       </div>
-      <div className="text-sm">
+      <a
+        href={businessData.business.mapsUrl || 'https://maps.app.goo.gl/AMYJ1um9xQd4SpVN7'}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm underline underline-offset-2 hover:text-white transition-colors"
+      >
         {locale === 'fr' ? 'Sur Google' : 'On Google'}
-      </div>
+      </a>
     </div>
   );
 }

@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation';
-import { Locale } from '@/types';
 import { getFullLocalizedPath } from '@/lib/i18n';
+import { getLocaleFromParams } from '@/lib/params';
 
 interface LocationEnPageProps {
-  params: { locale: Locale };
+  params: { locale?: string } | Promise<{ locale?: string }> | undefined;
 }
 
-export default function LocationEnPage({ params }: LocationEnPageProps) {
+export default async function LocationEnPage({ params }: LocationEnPageProps) {
+  await getLocaleFromParams(params);
   redirect(getFullLocalizedPath('/localisation', 'en'));
 }

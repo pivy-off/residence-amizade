@@ -4,16 +4,19 @@ import { notFound } from 'next/navigation';
 import { Locale } from '@/types';
 import { getTranslations, getFullLocalizedPath } from '@/lib/i18n';
 import { generatePageMetadata as genMeta } from '@/lib/metadata';
+import { getLocaleFromParams, resolveParams } from '@/lib/params';
 import businessData from '@/content/data.json';
 import { getWhatsAppLink } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 interface RoomDetailPageProps {
-  params: { locale: Locale; id: string };
+  params: { locale?: Locale; id?: string } | Promise<{ locale?: Locale; id?: string }> | undefined;
 }
 
 export async function generateMetadata({ params }: RoomDetailPageProps): Promise<Metadata> {
-  const { locale, id } = params;
+  const resolved = (params != null ? await resolveParams(params) : undefined) ?? {};
+  const locale = await getLocaleFromParams(params);
+  const id = resolved?.id ?? '';
   const room = businessData.rooms.find(r => r.id === id);
   
   if (!room) {
@@ -35,8 +38,10 @@ export async function generateMetadata({ params }: RoomDetailPageProps): Promise
   });
 }
 
-export default function RoomDetailPage({ params }: RoomDetailPageProps) {
-  const { locale, id } = params;
+export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
+  const resolved = (params != null ? await resolveParams(params) : undefined) ?? {};
+  const locale = await getLocaleFromParams(params);
+  const id = resolved?.id ?? '';
   const t = getTranslations(locale);
   const room = businessData.rooms.find(r => r.id === id);
   
@@ -54,12 +59,13 @@ export default function RoomDetailPage({ params }: RoomDetailPageProps) {
     <div className="container-custom section-padding">
       {/* Photo Gallery */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-        {room.images.map((image, index) => (
+        {(room.images || []).map((image, index) => (
           <div key={index} className={`relative h-64 md:h-96 rounded-apple-lg overflow-hidden bg-gray-200 ${index === 0 ? 'md:col-span-2' : ''}`}>
             <Image
               src={image}
               alt={`${roomName} - ${index + 1}`}
               fill
+              unoptimized
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               priority={index === 0}

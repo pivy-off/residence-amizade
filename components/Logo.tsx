@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Locale } from '@/types';
 
 interface LogoProps {
@@ -5,10 +8,45 @@ interface LogoProps {
   className?: string;
 }
 
+// Try /logo.png first (public/logo.png), then images folder, then built-in SVG
+const LOGO_SOURCES = ['/logo.png', '/images/logo.png', '/logo.svg', '/images/logo.svg', '/logo.jpg', '/images/logo.jpg'] as const;
+type Fallback = 0 | 1 | 2 | 3 | 4 | 5 | 'builtin';
+
 export default function Logo({ locale, className = '' }: LogoProps) {
+  const [fallback, setFallback] = useState<Fallback>(0);
+
+  if (fallback === 'builtin') {
+    return (
+      <div className={`flex flex-col items-center ${className}`}>
+        <LogoSvg />
+      </div>
+    );
+  }
+
+  const src = LOGO_SOURCES[fallback];
+  const onError = () => {
+    if (fallback === 5) setFallback('builtin');
+    else setFallback((fallback + 1) as Fallback);
+  };
+
   return (
     <div className={`flex flex-col items-center ${className}`}>
-      <svg
+      <img
+        key={src}
+        src={src}
+        alt="Résidence Amizade"
+        width={300}
+        height={120}
+        className="h-[96px] md:h-[120px] w-auto object-contain object-left"
+        onError={onError}
+      />
+    </div>
+  );
+}
+
+function LogoSvg() {
+  return (
+    <svg
         width="80"
         height="70"
         viewBox="0 0 80 70"
@@ -92,6 +130,5 @@ export default function Logo({ locale, className = '' }: LogoProps) {
           strokeLinecap="round"
         />
       </svg>
-    </div>
   );
 }

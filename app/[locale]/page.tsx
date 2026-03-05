@@ -9,21 +9,24 @@ import ReviewCard from '@/components/ReviewCard';
 import BookingBar from '@/components/BookingBar';
 import SocialProof from '@/components/SocialProof';
 import QuickHighlights from '@/components/QuickHighlights';
-import Footer from '@/components/Footer';
 import TrustBadges from '@/components/TrustBadges';
 import SpecialOffer from '@/components/SpecialOffer';
 import Newsletter from '@/components/Newsletter';
 import GuestServices from '@/components/GuestServices';
-import HeroBackground from '@/components/HeroBackground';
 import { getWhatsAppLink } from '@/lib/utils';
+import { getLocaleFromParams } from '@/lib/params';
 import type { Metadata } from 'next';
 
+// Ensure home is statically generated so full HTML is sent (no streaming placeholder)
+export const dynamic = 'force-static';
+export const dynamicParams = false;
+
 interface HomePageProps {
-  params: { locale: Locale };
+  params: { locale?: Locale } | Promise<{ locale?: Locale }> | undefined;
 }
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
-  const { locale } = params;
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   
   return genMeta({
@@ -34,8 +37,8 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   });
 }
 
-export default function HomePage({ params }: HomePageProps) {
-  const { locale } = params;
+export default async function HomePage({ params }: HomePageProps) {
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   const rooms = businessData.rooms.slice(0, 3);
   const reviews = businessData.reviews.slice(0, 3);
@@ -43,10 +46,22 @@ export default function HomePage({ params }: HomePageProps) {
 
   return (
     <>
-      {/* Hero Section with Photo/Video */}
+      {/* Hero Section - server-rendered only (no client components) to avoid hydration issues */}
       <section className="relative h-[90vh] min-h-[700px] flex items-end justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white overflow-hidden">
-        {/* Hero Image/Video Background */}
-        <HeroBackground />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/og-image.jpg"
+            alt=""
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 via-blue-700/60 to-blue-800/80 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.1),transparent)] z-10" />
+        </div>
         
         <div className="relative z-10 container-custom w-full pb-8 md:pb-16">
           <div className="text-center mb-12">
@@ -147,7 +162,6 @@ export default function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-
       {/* Location Section with Map, Airport Distance, WhatsApp */}
       <section className="section-padding bg-white">
         <div className="container-custom">
@@ -181,13 +195,24 @@ export default function HomePage({ params }: HomePageProps) {
               </a>
             </div>
             <div className="relative h-[500px] rounded-apple-lg overflow-hidden bg-gray-100 shadow-apple-lg">
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                <div className="text-center p-8">
-                  <p className="mb-4 text-base">Google Maps</p>
-                  <p className="text-sm">TODO: Add Google Maps embed iframe</p>
-                  <p className="text-xs mt-2">Use the embed URL from Google Maps</p>
-                </div>
-              </div>
+              <iframe
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-16.282%2C12.578%2C-16.262%2C12.588&layer=mapnik&marker=12.5833%2C-16.2719"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                title="Résidence AMIZADE - Ziguinchor"
+                className="absolute inset-0 w-full h-full"
+              />
+              <a
+                href={businessData.business.mapsUrl || 'https://maps.app.goo.gl/AMYJ1um9xQd4SpVN7'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-4 right-4 z-10 btn-primary text-sm py-2 px-4 shadow-lg"
+              >
+                {locale === 'fr' ? 'Ouvrir dans Google Maps' : 'Open in Google Maps'}
+              </a>
             </div>
           </div>
         </div>
@@ -213,10 +238,11 @@ export default function HomePage({ params }: HomePageProps) {
               <div key={index} className="relative h-64 md:h-80 rounded-apple overflow-hidden bg-gray-200 group">
                 <Image
                   src={`/images/gallery/${imageName}`}
-                  alt={`Gallery image ${index + 1}`}
+                  alt={`Gallery ${index + 1}`}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                   sizes="(max-width: 640px) 50vw, 25vw"
+                  unoptimized
                 />
               </div>
             ))}

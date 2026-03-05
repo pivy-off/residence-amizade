@@ -1,16 +1,17 @@
 import { Locale } from '@/types';
-import { getTranslations, getFullLocalizedPath, generatePageMetadata } from '@/lib/i18n';
+import { getTranslations, getFullLocalizedPath } from '@/lib/i18n';
 import { generatePageMetadata as genMeta } from '@/lib/metadata';
+import { getLocaleFromParams } from '@/lib/params';
 import RoomCard from '@/components/RoomCard';
 import businessData from '@/content/data.json';
 import type { Metadata } from 'next';
 
 interface RoomsPageProps {
-  params: { locale: Locale };
+  params: { locale?: Locale } | Promise<{ locale?: Locale }> | undefined;
 }
 
 export async function generateMetadata({ params }: RoomsPageProps): Promise<Metadata> {
-  const { locale } = params;
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   
   return genMeta({
@@ -21,8 +22,8 @@ export async function generateMetadata({ params }: RoomsPageProps): Promise<Meta
   });
 }
 
-export default function RoomsPage({ params }: RoomsPageProps) {
-  const { locale } = params;
+export default async function RoomsPage({ params }: RoomsPageProps) {
+  const locale = await getLocaleFromParams(params);
   const t = getTranslations(locale);
   const rooms = businessData.rooms;
 

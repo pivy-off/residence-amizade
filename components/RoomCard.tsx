@@ -23,13 +23,14 @@ export default function RoomCard({ room, locale }: RoomCardProps) {
     <Link href={getFullLocalizedPath(`/chambres/${room.id}`, locale)} className="card-apple group block">
       <div className="relative h-64 sm:h-80 overflow-hidden">
         <Image
-          src={room.images[0] || '/images/placeholder-room.jpg'}
+          src={room.images?.[0] || '/images/placeholder-room.jpg'}
           alt={roomName}
           className="object-cover group-hover:scale-110 transition-transform duration-700"
           fill
+          unoptimized
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {room.images.length > 1 && (
+        {room.images && room.images.length > 1 && (
           <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-apple text-xs font-medium text-gray-700">
             {room.images.length} {locale === 'fr' ? 'photos' : 'photos'}
           </div>

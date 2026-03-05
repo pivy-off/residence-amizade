@@ -149,9 +149,12 @@
     "phoneSecondary": "+221778617137",
     "whatsapp": "+221779159990",
     "address": "Ziguinchor, Senegal",
-    "addressDetailed": "À proximité de l'hôpital régional, Ziguinchor, Sénégal",
+    "addressDetailed": "HP57+HW3, Près de l'hôpital régionale, Ziguinchor, Sénégal",
+    "mapsUrl": "https://maps.app.goo.gl/AMYJ1um9xQd4SpVN7",
     "email": "contact@residenceamizade.sn",
     "latitude": "12.5833",
-    "longitude": "-16.2719"
+    "longitude": "-16.2719",
+    "instagram": "https://www.instagram.com/la_residence_amizade",
+    "facebook": "https://www.facebook.com/share/1H9pNUB3dB/?mibextid=wwXIfr"
   }
 }

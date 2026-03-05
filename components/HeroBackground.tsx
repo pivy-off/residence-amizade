@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+
+const HERO_IMAGE = '/images/hero-image.jpg';
+const FALLBACK_IMAGE = '/images/og-image.jpg';
 
 export default function HeroBackground() {
   const [hasVideo, setHasVideo] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [useFallbackImg, setUseFallbackImg] = useState(false);
 
   useEffect(() => {
-    // Check if video exists by trying to load it
     const video = document.createElement('video');
     video.src = '/images/hero-video.mp4';
     video.oncanplay = () => setHasVideo(true);
@@ -18,9 +21,10 @@ export default function HeroBackground() {
     };
   }, []);
 
+  const imgSrc = useFallbackImg ? FALLBACK_IMAGE : HERO_IMAGE;
+
   return (
-    <div className="absolute inset-0">
-      {/* Video Background - if hero-video.mp4 exists */}
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
       {hasVideo && !videoError && (
         <video
           autoPlay
@@ -28,30 +32,26 @@ export default function HeroBackground() {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          poster="/images/hero-image.jpg"
+          poster={HERO_IMAGE}
         >
           <source src="/images/hero-video.mp4" type="video/mp4" />
           <source src="/images/hero-video.webm" type="video/webm" />
         </video>
       )}
-      {/* Fallback Image Background */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/hero-image.jpg"
-          alt="Résidence Amizade"
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-          onError={(e) => {
-            // Fallback to gradient if image doesn't exist
-            (e.target as HTMLImageElement).style.display = 'none';
+      {(!imgError || useFallbackImg) && (
+        <img
+          src={imgSrc}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={() => {
+            if (!useFallbackImg) setUseFallbackImg(true);
+            else setImgError(true);
           }}
         />
-      </div>
-      {/* Overlay Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.1),transparent)] z-10"></div>
+      )}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 via-blue-700/60 to-blue-800/80 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.1),transparent)] z-10" />
     </div>
   );
 }

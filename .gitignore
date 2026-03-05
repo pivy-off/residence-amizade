@@ -5,3 +5,12 @@ node_modules
 .env.production
 .env.development
 .DS_Store
+# backend secrets
+backend/Keys.env
+.env.*
+
+# python
+__pycache__/
+*.pyc
+backend/.env
+backend/*.db
