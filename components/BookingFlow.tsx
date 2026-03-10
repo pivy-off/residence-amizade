@@ -127,7 +127,8 @@ export default function BookingFlow({ locale }: BookingFlowProps) {
     let cancelled = false;
     const applyStatus = (d: { status?: string; room_name?: string; total_amount?: number; currency?: string } | null) => {
       if (!d) return;
-      setBookingStatus((d.status === 'paid' ? 'paid' : d.status === 'pending' ? 'pending' : d.status === 'cancelled' ? 'cancelled' : 'expired') || null);
+      const status = d.status === 'paid' ? 'paid' : d.status === 'pending' ? 'pending' : d.status === 'cancelled' ? 'cancelled' : 'expired';
+      setBookingStatus(status);
       setBookingDetails(d ? { room_name: d.room_name, total_amount: d.total_amount, currency: d.currency } : null);
     };
     const fetchStatus = () => {
